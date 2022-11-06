@@ -4,10 +4,14 @@ import klimov.test.spring.models.Book;
 import klimov.test.spring.models.JsonResponse;
 import klimov.test.spring.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.http.converter.json.JsonbHttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,7 +32,6 @@ public class BookController {
     @GetMapping("/author")
     public ResponseEntity<Map<String, List<Book>>> findAllGroupByAuthor() {
         Map<String, List<Book>> booksByAuthor = bookRepository.findAll().stream().collect(Collectors.groupingBy(Book::getAuthor));
-
         return new ResponseEntity<>(booksByAuthor, HttpStatus.OK);
     }
 
@@ -38,9 +41,13 @@ public class BookController {
         return new ResponseEntity<>(new JsonResponse("Book was added successfully."), HttpStatus.CREATED);
     }
 
-//    @PostMapping("/")
-//    public ResponseEntity<JsonResponse> authorAll(@RequestBody Book book) {
-//        bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getDescription()));
-//        return new ResponseEntity<JsonResponse>(new JsonResponse("Book was added successfully."), HttpStatus.CREATED);
+//    @PostMapping("/count")
+//    public ResponseEntity<List<Book>> authorAll(@RequestBody String symbol) {
+//        List<Book> booksByAuthor = bookRepository.findAll();
+//        for (int i = 0; i <= booksByAuthor.size(); i++){
+//            long count_symbol = booksByAuthor.get(i).getTitle().codePoints().filter(ch -> ch == symbol).count();
+//            System.out.println(count_symbol);
+//        }
+//        return new ResponseEntity<>(booksByAuthor, HttpStatus.OK);
 //    }
 }
