@@ -30,15 +30,5 @@ public class BookRepoJDBC implements BookRepository{
         return jdbcTemplate.query("SELECT * from book ORDER BY title DESC", BeanPropertyRowMapper.newInstance(Book.class));
     }
 
-//    @Override
-//    public List<Book> findAllGroupByAuthor() {
-//        return jdbcTemplate.query("SELECT id,author, title, description from book GROUP BY author, title, id, description", BeanPropertyRowMapper.newInstance(Book.class));
-//    }
-
-    @Override
-    public List<Book> findByAuthor(String author) {
-        return jdbcTemplate.query("SELECT * from book WHERE author=?",
-                BeanPropertyRowMapper.newInstance(Book.class), author);
-    }
 
 }

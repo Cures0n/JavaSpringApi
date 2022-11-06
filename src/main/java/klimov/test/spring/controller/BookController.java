@@ -25,12 +25,6 @@ public class BookController {
             return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
-//    @GetMapping("/author")
-//    public ResponseEntity<List<Book>> findAllGroupByAuthor() {
-//            List<Book> book = bookRepository.findAllGroupByAuthor();
-//            return new ResponseEntity<>(book, HttpStatus.OK);
-//    }
-
     @GetMapping("/author")
     public ResponseEntity<Map<String, List<Book>>> findAllGroupByAuthor() {
         Map<String, List<Book>> booksByAuthor = bookRepository.findAll().stream().collect(Collectors.groupingBy(Book::getAuthor));
@@ -41,12 +35,12 @@ public class BookController {
     @PostMapping("/book")
     public ResponseEntity<JsonResponse> createBook(@RequestBody Book book) {
         bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getDescription()));
-        return new ResponseEntity<JsonResponse>(new JsonResponse("Book was added successfully."), HttpStatus.CREATED);
+        return new ResponseEntity<>(new JsonResponse("Book was added successfully."), HttpStatus.CREATED);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<JsonResponse> authorAll(@RequestBody Book book) {
-        bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getDescription()));
-        return new ResponseEntity<JsonResponse>(new JsonResponse("Book was added successfully."), HttpStatus.CREATED);
-    }
+//    @PostMapping("/")
+//    public ResponseEntity<JsonResponse> authorAll(@RequestBody Book book) {
+//        bookRepository.save(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getDescription()));
+//        return new ResponseEntity<JsonResponse>(new JsonResponse("Book was added successfully."), HttpStatus.CREATED);
+//    }
 }
